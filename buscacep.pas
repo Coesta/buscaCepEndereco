@@ -34,11 +34,13 @@ type
     procedure bt_consultarClick(Sender: TObject);
     procedure bt_closeClick(Sender: TObject);
     procedure bt_limparCamposClick(Sender: TObject);
+    procedure ed_cepKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     function getCEP(CEP:string): TJSONObject;
     procedure CarregaCep(JSON: TJSONObject);
     procedure LimparCampos;
+    procedure numericopuro(var Key: Char);
 
   public
     { Public declarations }
@@ -104,6 +106,11 @@ begin
   end;
 end;
 
+procedure TForm1.ed_cepKeyPress(Sender: TObject; var Key: Char);
+begin
+  numericopuro(Key);
+end;
+
 function TForm1.getCEP(CEP: string): TJSONObject;
 var
    HTTP: TIdHTTP;
@@ -138,4 +145,11 @@ begin
 
 end;
 
+procedure TForm1.numericopuro(var Key: Char);
+begin
+  if not CharInSet(Key, ['0' .. '9', #8, #13, #27, ^C, ^V, ^X, ^Z]) then
+  begin
+    Key := #0;
+  end;
+end;
 end.

@@ -130,6 +130,7 @@ object Form1: TForm1
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    OnKeyPress = ed_cepKeyPress
   end
   object bt_consultar: TButton
     Left = 257
