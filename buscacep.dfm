@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   BorderStyle = bsSingle
   ClientHeight = 353
-  ClientWidth = 659
+  ClientWidth = 923
   Color = clBtnHighlight
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,6 +12,7 @@ object Form1: TForm1
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
@@ -118,10 +119,23 @@ object Form1: TForm1
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object Label14: TLabel
+    Left = 655
+    Top = 55
+    Width = 108
+    Height = 13
+    Caption = 'Retorno do Servi'#231'o'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object Panel2: TPanel
     Left = 0
     Top = 311
-    Width = 659
+    Width = 923
     Height = 42
     Align = alBottom
     BevelOuter = bvNone
@@ -135,7 +149,7 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 1
     object bt_limparCampos: TButton
-      Left = 348
+      Left = 617
       Top = 7
       Width = 152
       Height = 30
@@ -150,7 +164,7 @@ object Form1: TForm1
       OnClick = bt_limparCamposClick
     end
     object bt_close: TButton
-      Left = 506
+      Left = 775
       Top = 7
       Width = 144
       Height = 29
@@ -167,11 +181,10 @@ object Form1: TForm1
   end
   object PageControl: TPageControl
     Left = 0
-    Top = 49
-    Width = 659
+    Top = 50
+    Width = 649
     Height = 112
     ActivePage = aba_consultaPorEndereco
-    Align = alTop
     TabHeight = 30
     TabOrder = 0
     object aba_consultaPorCEP: TTabSheet
@@ -319,7 +332,7 @@ object Form1: TForm1
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 659
+    Width = 923
     Height = 49
     Align = alTop
     BevelOuter = bvNone
@@ -335,9 +348,9 @@ object Form1: TForm1
     object Label2: TLabel
       Left = 21
       Top = 13
-      Width = 225
+      Width = 252
       Height = 24
-      Caption = 'Busca - Endere'#231'o/CEP'
+      Caption = 'Consulta - Endere'#231'o/CEP'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
       Font.Height = -20
@@ -443,5 +456,15 @@ object Form1: TForm1
     Font.Style = []
     ParentFont = False
     TabOrder = 4
+  end
+  object memo_json: TMemo
+    Left = 656
+    Top = 71
+    Width = 259
+    Height = 234
+    Lines.Strings = (
+      'memo_json')
+    ScrollBars = ssVertical
+    TabOrder = 11
   end
 end

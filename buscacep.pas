@@ -58,10 +58,13 @@ type
     Label13: TLabel;
     ed_cidadeConsulta: TEdit;
     ed_logradouroConsulta: TEdit;
+    Label14: TLabel;
+    memo_json: TMemo;
     procedure bt_consultarCEPClick(Sender: TObject);
     procedure bt_closeClick(Sender: TObject);
     procedure bt_limparCamposClick(Sender: TObject);
     procedure bt_consultarEnderecoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     function getDados(params: TEnderecoCompleto; tipoConsulta: TTipoConsulta): TJSONObject;
@@ -151,14 +154,14 @@ begin
   dadosEnderecoCompleto.logradouro := ed_logradouroConsulta.Text;
 
   jsonObject := getDados(dadosEnderecoCompleto, tcEndereco);
-  if jsonObject <> nil then
-    CarregaDadosEndereco(jsonObject)
-  else
-  begin
-    mensagemAviso('Endereço inválido ou não encontrado');
-    ed_cep.SetFocus;
-    Exit;
-  end;
+//  if jsonObject <> nil then
+//    CarregaDadosEndereco(jsonObject)
+//  else
+//  begin
+//    mensagemAviso('Endereço inválido ou não encontrado');
+//    ed_cep.SetFocus;
+//    Exit;
+//  end;
 end;
 
 procedure TForm1.bt_limparCamposClick(Sender: TObject);
@@ -210,6 +213,11 @@ begin
 
 end;
 
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  memo_json.Text := '';
+end;
+
 function TForm1.getDados(params: TEnderecoCompleto; tipoConsulta: TTipoConsulta): TJSONObject;
 var
   HTTP: TIdHTTP;
@@ -227,7 +235,10 @@ begin
     begin
       HTTP.Get('https://viacep.com.br/ws/' + params.CEP + '/json', Response);
       if (HTTP.ResponseCode = 200) and not (UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
-        Result := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONObject
+      begin
+        memo_json.Text := UTF8ToString(Response.DataString);
+        Result := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONObject;
+      end
       else
         raise Exception.Create('CEP inexistente!');
     end;
@@ -236,7 +247,10 @@ begin
     begin
       HTTP.Get('https://viacep.com.br/ws/' + params.uf + '/' + params.localidade + '/' + params.logradouro + '/json', Response);
       if (HTTP.ResponseCode = 200) and not (UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
-        Result := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONObject
+      begin
+        memo_json.Text := UTF8ToString(Response.DataString);
+//        Result := TJSONObject.ParseJSONValueUTF8(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONObject
+      end
       else
         raise Exception.Create('Endereço inexistente ou não encontrado!');
     end;
@@ -255,6 +269,8 @@ begin
   for i := 0 to Self.ControlCount - 1 do
     if Self.Controls[i] is TEdit then
       TEdit(Self.Controls[i]).Clear;
+
+  memo_json.Text := '';
 
   dadosEnderecoCompleto.CEP := '';
   dadosEnderecoCompleto.logradouro := '';
