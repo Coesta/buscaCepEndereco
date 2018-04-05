@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   BorderStyle = bsSingle
-  ClientHeight = 354
-  ClientWidth = 645
+  ClientHeight = 353
+  ClientWidth = 659
   Color = clBtnHighlight
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,22 +14,9 @@ object Form1: TForm1
   Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 43
-    Top = 80
-    Width = 81
-    Height = 16
-    Caption = 'Insira o CEP:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
-    ParentFont = False
-  end
   object Label3: TLabel
-    Left = 15
-    Top = 128
+    Left = 13
+    Top = 176
     Width = 109
     Height = 13
     Caption = 'Logradouro / Nome'
@@ -40,35 +27,9 @@ object Form1: TForm1
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label4: TLabel
-    Left = 399
-    Top = 165
-    Width = 46
-    Height = 13
-    Caption = 'Unidade'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
-    ParentFont = False
-  end
-  object Label5: TLabel
-    Left = 415
-    Top = 200
-    Width = 26
-    Height = 13
-    Caption = 'IBGE'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
-    ParentFont = False
-  end
   object Label6: TLabel
-    Left = 45
-    Top = 165
+    Left = 43
+    Top = 213
     Width = 79
     Height = 13
     Caption = 'Complemento'
@@ -79,9 +40,22 @@ object Form1: TForm1
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object Label4: TLabel
+    Left = 401
+    Top = 213
+    Width = 46
+    Height = 13
+    Caption = 'Unidade'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object Label7: TLabel
-    Left = 36
-    Top = 200
+    Left = 34
+    Top = 248
     Width = 88
     Height = 13
     Caption = 'Bairro / Distrito'
@@ -92,9 +66,22 @@ object Form1: TForm1
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object Label5: TLabel
+    Left = 421
+    Top = 248
+    Width = 26
+    Height = 13
+    Caption = 'IBGE'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object Label8: TLabel
-    Left = 64
-    Top = 232
+    Left = 62
+    Top = 280
     Width = 60
     Height = 13
     Caption = 'Localidade'
@@ -106,8 +93,8 @@ object Form1: TForm1
     ParentFont = False
   end
   object Label9: TLabel
-    Left = 110
-    Top = 264
+    Left = 433
+    Top = 280
     Width = 14
     Height = 13
     Caption = 'UF'
@@ -118,154 +105,23 @@ object Form1: TForm1
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object ed_cep: TEdit
-    Left = 130
-    Top = 79
-    Width = 121
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 0
-    OnKeyPress = ed_cepKeyPress
-  end
-  object bt_consultar: TButton
-    Left = 257
-    Top = 77
-    Width = 151
-    Height = 25
-    Caption = 'Consultar CEP'
+  object Label11: TLabel
+    Left = 427
+    Top = 176
+    Width = 20
+    Height = 13
+    Caption = 'CEP'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 1
-    OnClick = bt_consultarClick
-  end
-  object ed_logradouro: TEdit
-    Left = 130
-    Top = 125
-    Width = 502
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-  end
-  object ed_complemento: TEdit
-    Left = 130
-    Top = 162
-    Width = 261
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 3
-  end
-  object ed_bairro: TEdit
-    Left = 130
-    Top = 197
-    Width = 255
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 4
-  end
-  object ed_localidade: TEdit
-    Left = 130
-    Top = 229
-    Width = 121
-    Height = 21
-    TabOrder = 5
-  end
-  object ed_uf: TEdit
-    Left = 130
-    Top = 261
-    Width = 121
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 6
-  end
-  object ed_unidade: TEdit
-    Left = 451
-    Top = 162
-    Width = 181
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 7
-  end
-  object ed_ibge: TEdit
-    Left = 451
-    Top = 197
-    Width = 181
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 8
-  end
-  object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 645
-    Height = 49
-    Align = alTop
-    BevelOuter = bvNone
-    Color = 9783808
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentBackground = False
-    ParentFont = False
-    TabOrder = 9
-    object Label2: TLabel
-      Left = 21
-      Top = 13
-      Width = 225
-      Height = 24
-      Caption = 'Busca - Endere'#231'o/CEP'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -20
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 312
-    Width = 645
+    Top = 311
+    Width = 659
     Height = 42
     Align = alBottom
     BevelOuter = bvNone
@@ -277,9 +133,9 @@ object Form1: TForm1
     Font.Style = []
     ParentBackground = False
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 1
     object bt_limparCampos: TButton
-      Left = 326
+      Left = 348
       Top = 7
       Width = 152
       Height = 30
@@ -294,7 +150,7 @@ object Form1: TForm1
       OnClick = bt_limparCamposClick
     end
     object bt_close: TButton
-      Left = 488
+      Left = 506
       Top = 7
       Width = 144
       Height = 29
@@ -308,5 +164,284 @@ object Form1: TForm1
       TabOrder = 1
       OnClick = bt_closeClick
     end
+  end
+  object PageControl: TPageControl
+    Left = 0
+    Top = 49
+    Width = 659
+    Height = 112
+    ActivePage = aba_consultaPorEndereco
+    Align = alTop
+    TabHeight = 30
+    TabOrder = 0
+    object aba_consultaPorCEP: TTabSheet
+      Caption = '     Consulta por CEP     '
+      object Label1: TLabel
+        Left = 21
+        Top = 16
+        Width = 81
+        Height = 16
+        Caption = 'Insira o CEP:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object ed_cepConsulta: TEdit
+        Left = 21
+        Top = 35
+        Width = 121
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+      end
+      object bt_consultarCEP: TButton
+        Left = 148
+        Top = 33
+        Width = 151
+        Height = 25
+        Caption = 'Consultar CEP'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        OnClick = bt_consultarCEPClick
+      end
+    end
+    object aba_consultaPorEndereco: TTabSheet
+      Caption = '    Consulta por Endere'#231'o    '
+      ImageIndex = 1
+      object Label10: TLabel
+        Left = 21
+        Top = 16
+        Width = 72
+        Height = 16
+        Caption = 'Insira a UF:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label12: TLabel
+        Left = 114
+        Top = 16
+        Width = 101
+        Height = 16
+        Caption = 'Insira a Cidade:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label13: TLabel
+        Left = 260
+        Top = 16
+        Width = 133
+        Height = 16
+        Caption = 'Insira o Logradouro:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object ed_ufConsulta: TEdit
+        Left = 21
+        Top = 35
+        Width = 72
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+      end
+      object bt_consultarEndereco: TButton
+        Left = 496
+        Top = 33
+        Width = 138
+        Height = 25
+        Caption = 'Consultar Endere'#231'o'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
+        OnClick = bt_consultarEnderecoClick
+      end
+      object ed_cidadeConsulta: TEdit
+        Left = 114
+        Top = 35
+        Width = 128
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 2
+      end
+      object ed_logradouroConsulta: TEdit
+        Left = 260
+        Top = 35
+        Width = 214
+        Height = 21
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
+      end
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 659
+    Height = 49
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 9783808
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 2
+    object Label2: TLabel
+      Left = 21
+      Top = 13
+      Width = 225
+      Height = 24
+      Caption = 'Busca - Endere'#231'o/CEP'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -20
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  object ed_logradouro: TEdit
+    Left = 128
+    Top = 173
+    Width = 261
+    Height = 21
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+  end
+  object ed_complemento: TEdit
+    Left = 128
+    Top = 210
+    Width = 261
+    Height = 21
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
+  end
+  object ed_unidade: TEdit
+    Left = 457
+    Top = 210
+    Width = 181
+    Height = 21
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 6
+  end
+  object ed_bairro: TEdit
+    Left = 128
+    Top = 245
+    Width = 261
+    Height = 21
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+  end
+  object ed_ibge: TEdit
+    Left = 457
+    Top = 245
+    Width = 181
+    Height = 21
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 8
+  end
+  object ed_localidade: TEdit
+    Left = 128
+    Top = 277
+    Width = 261
+    Height = 21
+    TabOrder = 9
+  end
+  object ed_uf: TEdit
+    Left = 457
+    Top = 277
+    Width = 181
+    Height = 21
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 10
+  end
+  object ed_cep: TEdit
+    Left = 457
+    Top = 173
+    Width = 181
+    Height = 21
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
   end
 end
