@@ -285,7 +285,7 @@ object Form1: TForm1
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 1
+        TabOrder = 3
         OnClick = bt_consultarEnderecoClick
       end
       object ed_cidadeConsulta: TEdit
@@ -299,7 +299,7 @@ object Form1: TForm1
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        TabOrder = 2
+        TabOrder = 1
       end
       object ed_logradouroConsulta: TEdit
         Left = 260
@@ -312,7 +312,7 @@ object Form1: TForm1
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        TabOrder = 3
+        TabOrder = 2
       end
     end
   end

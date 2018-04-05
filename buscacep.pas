@@ -66,6 +66,7 @@ type
     { Private declarations }
     function getDados(params: TEnderecoCompleto; tipoConsulta: TTipoConsulta): TJSONObject;
     procedure CarregaDados(JSON: TJSONObject);
+    procedure CarregaDadosEndereco(JSON: TJSONObject);
     procedure LimparCampos;
     procedure numericopuro(var Key: Char);
     procedure mensagemAviso(mensagem: string);
@@ -151,7 +152,7 @@ begin
 
   jsonObject := getDados(dadosEnderecoCompleto, tcEndereco);
   if jsonObject <> nil then
-    CarregaDados(jsonObject)
+    CarregaDadosEndereco(jsonObject)
   else
   begin
     mensagemAviso('Endereço inválido ou não encontrado');
@@ -175,7 +176,7 @@ begin
     ed_uf.Text          := JSON.Get('uf').JsonValue.Value;
     ed_complemento.Text := JSON.Get('complemento').JsonValue.Value;
     ed_ibge.Text        := JSON.Get('ibge').JsonValue.Value;
-    ed_unidade.Text        := JSON.Get('unidade').JsonValue.Value;
+    ed_unidade.Text     := JSON.Get('unidade').JsonValue.Value;
   except
     on e: Exception do
     begin
@@ -184,42 +185,67 @@ begin
   end;
 end;
 
+procedure TForm1.CarregaDadosEndereco(JSON: TJSONObject);
+var
+  raiz, resultados, resultado, item : TJSONValue;
+  i : Integer;
+begin
+  raiz := JSON.Get('response').JsonValue;
+  resultados := TJSONObject(raiz).Get('parts').JsonValue;
+
+  for i := 0 to TJSONArray(resultados).Size - 1 do
+  begin
+    resultado    := TJSONArray(resultados).Get(i);
+    ed_logradouro.Text := TJSONObject(resultado).Get('logradouro').JsonValue.Value;
+
+//    ed_logradouro.Text  := JSON.Get('logradouro').JsonValue.Value;
+//    ed_cep.Text         := JSON.Get('cep').JsonValue.Value;
+//    ed_localidade.Text  := UpperCase(JSON.Get('localidade').JsonValue.Value);
+//    ed_bairro.Text      := JSON.Get('bairro').JsonValue.Value;
+//    ed_uf.Text          := JSON.Get('uf').JsonValue.Value;
+//    ed_complemento.Text := JSON.Get('complemento').JsonValue.Value;
+//    ed_ibge.Text        := JSON.Get('ibge').JsonValue.Value;
+//    ed_unidade.Text     := JSON.Get('unidade').JsonValue.Value;
+  end;
+
+end;
+
 function TForm1.getDados(params: TEnderecoCompleto; tipoConsulta: TTipoConsulta): TJSONObject;
 var
-   HTTP: TIdHTTP;
-   IDSSLHandler : TIdSSLIOHandlerSocketOpenSSL;
-   Response: TStringStream;
-   LJsonObj: TJSONObject;
+  HTTP: TIdHTTP;
+  IDSSLHandler: TIdSSLIOHandlerSocketOpenSSL;
+  Response: TStringStream;
+  LJsonObj: TJSONObject;
 begin
-   try
-      HTTP := TIdHTTP.Create;
-      IDSSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create;
-      HTTP.IOHandler := IDSSLHandler;
-      Response := TStringStream.Create('');
+  try
+    HTTP := TIdHTTP.Create;
+    IDSSLHandler := TIdSSLIOHandlerSocketOpenSSL.Create;
+    HTTP.IOHandler := IDSSLHandler;
+    Response := TStringStream.Create('');
 
-      if tipoConsulta = tcCep then
-      begin
-        HTTP.Get('https://viacep.com.br/ws/' + params.CEP + '/json', Response);
-        if (HTTP.ResponseCode = 200) and not(UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
-          Result := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes( Utf8ToAnsi(Response.DataString)), 0) as TJSONObject
-        else
-          raise Exception.Create('CEP inexistente!');
-      end;
+    if tipoConsulta = tcCep then
+    begin
+      HTTP.Get('https://viacep.com.br/ws/' + params.CEP + '/json', Response);
+      if (HTTP.ResponseCode = 200) and not (UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
+        Result := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONObject
+      else
+        raise Exception.Create('CEP inexistente!');
+    end;
 
-      if tipoConsulta = tcEndereco then
-      begin
-        HTTP.Get('https://viacep.com.br/ws/' + params.CEP + '/json', Response);
-        if (HTTP.ResponseCode = 200) and not(UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
-          Result := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes( Utf8ToAnsi(Response.DataString)), 0) as TJSONObject
-        else
-          raise Exception.Create('CEP inexistente!');
-      end;
+    if tipoConsulta = tcEndereco then
+    begin
+      HTTP.Get('https://viacep.com.br/ws/' + params.uf + '/' + params.localidade + '/' + params.logradouro + '/json', Response);
+      if (HTTP.ResponseCode = 200) and not (UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
+        Result := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONObject
+      else
+        raise Exception.Create('Endereço inexistente ou não encontrado!');
+    end;
 
-   finally
-      FreeAndNil(HTTP);
-      FreeAndNil(IDSSLHandler);
-      Response.Destroy;
-   end;
+  finally
+    FreeAndNil(HTTP);
+    FreeAndNil(IDSSLHandler);
+    Response.Destroy;
+  end;
 end;
 
 procedure TForm1.LimparCampos;
