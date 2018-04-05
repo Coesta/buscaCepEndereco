@@ -68,6 +68,7 @@ type
   private
     { Private declarations }
     function getDados(params: TEnderecoCompleto; tipoConsulta: TTipoConsulta): TJSONObject;
+    function removerAcentuacao(str: string): string;
     procedure CarregaDados(JSON: TJSONObject);
     procedure CarregaDadosEndereco(JSON: TJSONObject);
     procedure LimparCampos;
@@ -215,6 +216,7 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  PageControl.ActivePageIndex := aba_consultaPorCEP.TabIndex;
   memo_json.Text := '';
 end;
 
@@ -245,7 +247,7 @@ begin
 
     if tipoConsulta = tcEndereco then
     begin
-      HTTP.Get('https://viacep.com.br/ws/' + params.uf + '/' + params.localidade + '/' + params.logradouro + '/json', Response);
+      HTTP.Get('https://viacep.com.br/ws/' + params.uf + '/' + removerAcentuacao(params.localidade) + '/' + removerAcentuacao(params.logradouro) + '/json', Response);
       if (HTTP.ResponseCode = 200) and not (UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
       begin
         memo_json.Text := UTF8ToString(Response.DataString);
@@ -295,4 +297,20 @@ begin
     Key := #0;
   end;
 end;
+
+function TForm1.removerAcentuacao(str: string): string;
+var
+  x: Integer;
+const
+  ComAcento = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸¿¬ ‘€√’¡…Õ”⁄«‹';
+  SemAcento = 'aaeouaoaeioucuAAEOUAOAEIOUCU';
+begin
+  for x := 1 to Length(Str) do
+
+    if Pos(Str[x], ComAcento) <> 0 then
+      Str[x] := SemAcento[Pos(Str[x], ComAcento)];
+
+  Result := Str;
+end;
+
 end.

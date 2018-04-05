@@ -184,7 +184,7 @@ object Form1: TForm1
     Top = 50
     Width = 649
     Height = 112
-    ActivePage = aba_consultaPorEndereco
+    ActivePage = aba_consultaPorCEP
     TabHeight = 30
     TabOrder = 0
     object aba_consultaPorCEP: TTabSheet
