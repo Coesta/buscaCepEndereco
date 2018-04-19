@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   BorderStyle = bsSingle
-  ClientHeight = 489
+  ClientHeight = 487
   ClientWidth = 923
   Color = clBtnHighlight
   Font.Charset = DEFAULT_CHARSET
@@ -81,11 +81,11 @@ object Form1: TForm1
     ParentFont = False
   end
   object Label8: TLabel
-    Left = 62
+    Left = 12
     Top = 280
-    Width = 60
+    Width = 110
     Height = 13
-    Caption = 'Localidade'
+    Caption = 'Cidade / Localidade'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -134,7 +134,7 @@ object Form1: TForm1
   end
   object Panel2: TPanel
     Left = 0
-    Top = 447
+    Top = 445
     Width = 923
     Height = 42
     Align = alBottom
@@ -184,7 +184,7 @@ object Form1: TForm1
     Top = 50
     Width = 649
     Height = 112
-    ActivePage = aba_consultaPorEndereco
+    ActivePage = aba_consultaPorCEP
     TabHeight = 30
     TabOrder = 0
     object aba_consultaPorCEP: TTabSheet
@@ -214,6 +214,7 @@ object Form1: TForm1
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        OnExit = ed_cepConsultaExit
       end
       object bt_consultarCEP: TButton
         Left = 148
@@ -362,11 +363,13 @@ object Form1: TForm1
       ParentFont = False
     end
   end
-  object ed_logradouro: TEdit
+  object ed_logradouro: TDBEdit
     Left = 128
     Top = 173
     Width = 261
     Height = 21
+    DataField = 'Logradouro'
+    DataSource = ds_dados
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -375,11 +378,13 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 3
   end
-  object ed_complemento: TEdit
+  object ed_complemento: TDBEdit
     Left = 128
     Top = 210
     Width = 261
     Height = 21
+    DataField = 'Complemento'
+    DataSource = ds_dados
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -388,11 +393,13 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 5
   end
-  object ed_unidade: TEdit
+  object ed_unidade: TDBEdit
     Left = 457
     Top = 210
     Width = 181
     Height = 21
+    DataField = 'Unidade'
+    DataSource = ds_dados
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -401,11 +408,13 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 6
   end
-  object ed_bairro: TEdit
+  object ed_bairro: TDBEdit
     Left = 128
     Top = 245
     Width = 261
     Height = 21
+    DataField = 'Bairro'
+    DataSource = ds_dados
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -414,11 +423,13 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 7
   end
-  object ed_ibge: TEdit
+  object ed_ibge: TDBEdit
     Left = 457
     Top = 245
     Width = 181
     Height = 21
+    DataField = 'IBGE'
+    DataSource = ds_dados
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -427,18 +438,22 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 8
   end
-  object ed_localidade: TEdit
+  object ed_localidade: TDBEdit
     Left = 128
     Top = 277
     Width = 261
     Height = 21
+    DataField = 'Localidade'
+    DataSource = ds_dados
     TabOrder = 9
   end
-  object ed_uf: TEdit
+  object ed_uf: TDBEdit
     Left = 457
     Top = 277
     Width = 181
     Height = 21
+    DataField = 'UF'
+    DataSource = ds_dados
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -447,11 +462,13 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 10
   end
-  object ed_cep: TEdit
+  object ed_cep: TDBEdit
     Left = 457
     Top = 173
     Width = 181
     Height = 21
+    DataField = 'CEP'
+    DataSource = ds_dados
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -491,6 +508,7 @@ object Form1: TForm1
   object cds_dados: TClientDataSet
     Active = True
     Aggregates = <>
+    IndexFieldNames = 'cep'
     Params = <>
     Left = 792
     Top = 184
@@ -507,14 +525,6 @@ object Form1: TForm1
       FieldName = 'CEP'
       Size = 9
     end
-    object cds_dadosLogradouro: TStringField
-      FieldName = 'Logradouro'
-      Size = 60
-    end
-    object cds_dadosComplemento: TStringField
-      FieldName = 'Complemento'
-      Size = 60
-    end
     object cds_dadosUF: TStringField
       FieldName = 'UF'
       Size = 2
@@ -523,15 +533,23 @@ object Form1: TForm1
       FieldName = 'Bairro'
       Size = 60
     end
+    object cds_dadosLocalidade: TStringField
+      FieldName = 'Localidade'
+      Size = 60
+    end
+    object cds_dadosLogradouro: TStringField
+      FieldName = 'Logradouro'
+      Size = 60
+    end
+    object cds_dadosComplemento: TStringField
+      FieldName = 'Complemento'
+      Size = 60
+    end
     object cds_dadosIBGE: TStringField
       FieldName = 'IBGE'
     end
     object cds_dadosUnidade: TStringField
       FieldName = 'Unidade'
-      Size = 60
-    end
-    object cds_dadosLocalidade: TStringField
-      FieldName = 'Localidade'
       Size = 60
     end
   end

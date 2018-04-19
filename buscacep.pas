@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DBXJSON,
-  DBXJSONReflect, idHTTP, IdSSLOpenSSL, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids;
+  DBXJSONReflect, idHTTP, IdSSLOpenSSL, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids, Vcl.DBCtrls, Vcl.Mask;
 
 type
   TTipoConsulta = (tcCep, tcEndereco);
@@ -36,24 +36,24 @@ type
     ed_cepConsulta: TEdit;
     bt_consultarCEP: TButton;
     Label3: TLabel;
-    ed_logradouro: TEdit;
+    ed_logradouro: TDBEdit;
     Label6: TLabel;
-    ed_complemento: TEdit;
+    ed_complemento: TDBEdit;
     Label4: TLabel;
-    ed_unidade: TEdit;
+    ed_unidade: TDBEdit;
     Label7: TLabel;
-    ed_bairro: TEdit;
+    ed_bairro: TDBEdit;
     Label5: TLabel;
-    ed_ibge: TEdit;
+    ed_ibge: TDBEdit;
     Label8: TLabel;
-    ed_localidade: TEdit;
+    ed_localidade: TDBEdit;
     Label9: TLabel;
-    ed_uf: TEdit;
+    ed_uf: TDBEdit;
     Label10: TLabel;
     ed_ufConsulta: TEdit;
     bt_consultarEndereco: TButton;
     Label11: TLabel;
-    ed_cep: TEdit;
+    ed_cep: TDBEdit;
     Label12: TLabel;
     Label13: TLabel;
     ed_cidadeConsulta: TEdit;
@@ -79,6 +79,7 @@ type
     procedure ed_ufConsultaExit(Sender: TObject);
     procedure ed_cidadeConsultaExit(Sender: TObject);
     procedure ed_logradouroConsultaExit(Sender: TObject);
+    procedure ed_cepConsultaExit(Sender: TObject);
   private
     { Private declarations }
     function getDados(params: TEnderecoCompleto; tipoConsulta: TTipoConsulta): TJSONObject;
@@ -188,14 +189,26 @@ end;
 procedure TForm1.CarregaDados(JSON: TJSONObject);
 begin
   try
-    ed_logradouro.Text  := JSON.Get('logradouro').JsonValue.Value;
-    ed_cep.Text         := JSON.Get('cep').JsonValue.Value;
-    ed_localidade.Text  := UpperCase(JSON.Get('localidade').JsonValue.Value);
-    ed_bairro.Text      := JSON.Get('bairro').JsonValue.Value;
-    ed_uf.Text          := JSON.Get('uf').JsonValue.Value;
-    ed_complemento.Text := JSON.Get('complemento').JsonValue.Value;
-    ed_ibge.Text        := JSON.Get('ibge').JsonValue.Value;
-    ed_unidade.Text     := JSON.Get('unidade').JsonValue.Value;
+//    ed_logradouro.Text  := JSON.Get('logradouro').JsonValue.Value;
+//    ed_cep.Text         := JSON.Get('cep').JsonValue.Value;
+//    ed_localidade.Text  := UpperCase(JSON.Get('localidade').JsonValue.Value);
+//    ed_bairro.Text      := JSON.Get('bairro').JsonValue.Value;
+//    ed_uf.Text          := JSON.Get('uf').JsonValue.Value;
+//    ed_complemento.Text := JSON.Get('complemento').JsonValue.Value;
+//    ed_ibge.Text        := JSON.Get('ibge').JsonValue.Value;
+//    ed_unidade.Text     := JSON.Get('unidade').JsonValue.Value;
+
+    cds_dados.Append;
+    cds_dadosLogradouro.AsString  := JSON.Get('logradouro').JsonValue.Value;
+    cds_dadosCEP.AsString         := JSON.Get('cep').JsonValue.Value;
+    cds_dadosLocalidade.AsString  := UpperCase(JSON.Get('localidade').JsonValue.Value);
+    cds_dadosBairro.AsString      := JSON.Get('bairro').JsonValue.Value;
+    cds_dadosUF.AsString          := JSON.Get('uf').JsonValue.Value;
+    cds_dadosComplemento.AsString := JSON.Get('complemento').JsonValue.Value;
+    cds_dadosIBGE.AsString        := JSON.Get('ibge').JsonValue.Value;
+    cds_dadosUnidade.AsString     := JSON.Get('unidade').JsonValue.Value;
+    cds_dados.Post;
+
   except
     on e: Exception do
     begin
@@ -209,20 +222,32 @@ var
   i : Integer;
   resultados, jsonObjeto : TJSONObject;
 begin
-  for i := 0 to jsonArray.Size - 1 do
-  begin
-    cds_dados.Append;
-    cds_dadosLogradouro.AsString  := TJSONObject(jsonArray.Get(i)).Get('logradouro').JsonValue.Value;
-    cds_dadosCEP.AsString         := TJSONObject(jsonArray.Get(i)).Get('cep').JsonValue.Value;
-    cds_dadosLocalidade.AsString  := UpperCase(TJSONObject(jsonArray.Get(0)).Get('localidade').JsonValue.Value);
-    cds_dadosBairro.AsString      := TJSONObject(jsonArray.Get(i)).Get('bairro').JsonValue.Value;
-    cds_dadosUF.AsString          := TJSONObject(jsonArray.Get(i)).Get('uf').JsonValue.Value;
-    cds_dadosComplemento.AsString := TJSONObject(jsonArray.Get(i)).Get('complemento').JsonValue.Value;
-    cds_dadosIBGE.AsString        := TJSONObject(jsonArray.Get(i)).Get('ibge').JsonValue.Value;
-    cds_dadosUnidade.AsString     := TJSONObject(jsonArray.Get(i)).Get('unidade').JsonValue.Value;
-    cds_dados.Post;
+  cds_dados.DisableControls;
+
+  try
+    for i := 0 to jsonArray.Size - 1 do
+    begin
+      cds_dados.Append;
+      cds_dadosLogradouro.AsString  := TJSONObject(jsonArray.Get(i)).Get('logradouro').JsonValue.Value;
+      cds_dadosCEP.AsString         := TJSONObject(jsonArray.Get(i)).Get('cep').JsonValue.Value;
+      cds_dadosLocalidade.AsString  := UpperCase(TJSONObject(jsonArray.Get(0)).Get('localidade').JsonValue.Value);
+      cds_dadosBairro.AsString      := TJSONObject(jsonArray.Get(i)).Get('bairro').JsonValue.Value;
+      cds_dadosUF.AsString          := TJSONObject(jsonArray.Get(i)).Get('uf').JsonValue.Value;
+      cds_dadosComplemento.AsString := TJSONObject(jsonArray.Get(i)).Get('complemento').JsonValue.Value;
+      cds_dadosIBGE.AsString        := TJSONObject(jsonArray.Get(i)).Get('ibge').JsonValue.Value;
+      cds_dadosUnidade.AsString     := TJSONObject(jsonArray.Get(i)).Get('unidade').JsonValue.Value;
+      cds_dados.Post;
+    end;
+  finally
+    cds_dados.First;
+    cds_dados.EnableControls;
   end;
 
+end;
+
+procedure TForm1.ed_cepConsultaExit(Sender: TObject);
+begin
+  ed_cepConsulta.Text := Trim(ed_cepConsulta.Text)
 end;
 
 procedure TForm1.ed_cidadeConsultaExit(Sender: TObject);
