@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DBXJSON,
-  DBXJSONReflect, idHTTP, IdSSLOpenSSL, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls;
+  DBXJSONReflect, idHTTP, IdSSLOpenSSL, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Data.DB, Datasnap.DBClient, Vcl.Grids, Vcl.DBGrids;
 
 type
   TTipoConsulta = (tcCep, tcEndereco);
@@ -59,18 +59,32 @@ type
     ed_cidadeConsulta: TEdit;
     ed_logradouroConsulta: TEdit;
     Label14: TLabel;
-    memo_json: TMemo;
+    Memo_json: TMemo;
+    DBGrid1: TDBGrid;
+    ds_dados: TDataSource;
+    cds_dados: TClientDataSet;
+    cds_dadosLogradouro: TStringField;
+    cds_dadosCEP: TStringField;
+    cds_dadosComplemento: TStringField;
+    cds_dadosUF: TStringField;
+    cds_dadosBairro: TStringField;
+    cds_dadosIBGE: TStringField;
+    cds_dadosUnidade: TStringField;
+    cds_dadosLocalidade: TStringField;
     procedure bt_consultarCEPClick(Sender: TObject);
     procedure bt_closeClick(Sender: TObject);
     procedure bt_limparCamposClick(Sender: TObject);
     procedure bt_consultarEnderecoClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure ed_ufConsultaExit(Sender: TObject);
+    procedure ed_cidadeConsultaExit(Sender: TObject);
+    procedure ed_logradouroConsultaExit(Sender: TObject);
   private
     { Private declarations }
     function getDados(params: TEnderecoCompleto; tipoConsulta: TTipoConsulta): TJSONObject;
     function removerAcentuacao(str: string): string;
     procedure CarregaDados(JSON: TJSONObject);
-    procedure CarregaDadosEndereco(JSON: TJSONObject);
+    procedure CarregaDadosEndereco(jsonArray: TJSONArray);
     procedure LimparCampos;
     procedure numericopuro(var Key: Char);
     procedure mensagemAviso(mensagem: string);
@@ -125,7 +139,7 @@ end;
 
 procedure TForm1.bt_consultarEnderecoClick(Sender: TObject);
 var
-  jsonObject: TJSONObject;
+  json: TJSONObject;
 begin
   LimparCampos;
 
@@ -154,9 +168,10 @@ begin
   dadosEnderecoCompleto.localidade := ed_cidadeConsulta.Text;
   dadosEnderecoCompleto.logradouro := ed_logradouroConsulta.Text;
 
-  jsonObject := getDados(dadosEnderecoCompleto, tcEndereco);
-//  if jsonObject <> nil then
-//    CarregaDadosEndereco(jsonObject)
+  json := getDados(dadosEnderecoCompleto, tcEndereco);
+//  json := getDados(dadosEnderecoCompleto, tcEndereco);
+//  if json <> nil then
+//    CarregaDadosEndereco(json)
 //  else
 //  begin
 //    mensagemAviso('Endereço inválido ou não encontrado');
@@ -189,35 +204,46 @@ begin
   end;
 end;
 
-procedure TForm1.CarregaDadosEndereco(JSON: TJSONObject);
+procedure TForm1.CarregaDadosEndereco(jsonArray: TJSONArray);
 var
-  raiz, resultados, resultado, item : TJSONValue;
   i : Integer;
+  resultados, jsonObjeto : TJSONObject;
 begin
-  raiz := JSON.Get('response').JsonValue;
-  resultados := TJSONObject(raiz).Get('parts').JsonValue;
-
-  for i := 0 to TJSONArray(resultados).Size - 1 do
+  for i := 0 to jsonArray.Size - 1 do
   begin
-    resultado    := TJSONArray(resultados).Get(i);
-    ed_logradouro.Text := TJSONObject(resultado).Get('logradouro').JsonValue.Value;
-
-//    ed_logradouro.Text  := JSON.Get('logradouro').JsonValue.Value;
-//    ed_cep.Text         := JSON.Get('cep').JsonValue.Value;
-//    ed_localidade.Text  := UpperCase(JSON.Get('localidade').JsonValue.Value);
-//    ed_bairro.Text      := JSON.Get('bairro').JsonValue.Value;
-//    ed_uf.Text          := JSON.Get('uf').JsonValue.Value;
-//    ed_complemento.Text := JSON.Get('complemento').JsonValue.Value;
-//    ed_ibge.Text        := JSON.Get('ibge').JsonValue.Value;
-//    ed_unidade.Text     := JSON.Get('unidade').JsonValue.Value;
+    cds_dados.Append;
+    cds_dadosLogradouro.AsString  := TJSONObject(jsonArray.Get(i)).Get('logradouro').JsonValue.Value;
+    cds_dadosCEP.AsString         := TJSONObject(jsonArray.Get(i)).Get('cep').JsonValue.Value;
+    cds_dadosLocalidade.AsString  := UpperCase(TJSONObject(jsonArray.Get(0)).Get('localidade').JsonValue.Value);
+    cds_dadosBairro.AsString      := TJSONObject(jsonArray.Get(i)).Get('bairro').JsonValue.Value;
+    cds_dadosUF.AsString          := TJSONObject(jsonArray.Get(i)).Get('uf').JsonValue.Value;
+    cds_dadosComplemento.AsString := TJSONObject(jsonArray.Get(i)).Get('complemento').JsonValue.Value;
+    cds_dadosIBGE.AsString        := TJSONObject(jsonArray.Get(i)).Get('ibge').JsonValue.Value;
+    cds_dadosUnidade.AsString     := TJSONObject(jsonArray.Get(i)).Get('unidade').JsonValue.Value;
+    cds_dados.Post;
   end;
 
+end;
+
+procedure TForm1.ed_cidadeConsultaExit(Sender: TObject);
+begin
+  ed_cidadeConsulta.Text := Trim(ed_cidadeConsulta.Text)
+end;
+
+procedure TForm1.ed_logradouroConsultaExit(Sender: TObject);
+begin
+  ed_logradouroConsulta.Text := Trim(ed_logradouroConsulta.Text)
+end;
+
+procedure TForm1.ed_ufConsultaExit(Sender: TObject);
+begin
+  ed_ufConsulta.Text := Trim(ed_ufConsulta.Text)
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   PageControl.ActivePageIndex := aba_consultaPorCEP.TabIndex;
-  memo_json.Text := '';
+  Memo_json.Text := '';
 end;
 
 function TForm1.getDados(params: TEnderecoCompleto; tipoConsulta: TTipoConsulta): TJSONObject;
@@ -225,7 +251,7 @@ var
   HTTP: TIdHTTP;
   IDSSLHandler: TIdSSLIOHandlerSocketOpenSSL;
   Response: TStringStream;
-  LJsonObj: TJSONObject;
+  JsonArray: TJSONArray;
 begin
   try
     HTTP := TIdHTTP.Create;
@@ -238,7 +264,7 @@ begin
       HTTP.Get('https://viacep.com.br/ws/' + params.CEP + '/json', Response);
       if (HTTP.ResponseCode = 200) and not (UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
       begin
-        memo_json.Text := UTF8ToString(Response.DataString);
+        Memo_json.Text := UTF8ToString(Response.DataString);
         Result := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONObject;
       end
       else
@@ -250,8 +276,10 @@ begin
       HTTP.Get('https://viacep.com.br/ws/' + params.uf + '/' + removerAcentuacao(params.localidade) + '/' + removerAcentuacao(params.logradouro) + '/json', Response);
       if (HTTP.ResponseCode = 200) and not (UTF8ToString(Response.DataString) = '{'#$A'  "erro": true'#$A'}') then
       begin
+        JsonArray := TJSONObject.ParseJSONValue(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONArray;
         memo_json.Text := UTF8ToString(Response.DataString);
-//        Result := TJSONObject.ParseJSONValueUTF8(TEncoding.ASCII.GetBytes(UTF8ToString(Response.DataString)), 0) as TJSONObject
+        CarregaDadosEndereco(JsonArray);
+        Result := TJSONObject(JsonArray);
       end
       else
         raise Exception.Create('Endereço inexistente ou não encontrado!');
@@ -266,23 +294,33 @@ end;
 
 procedure TForm1.LimparCampos;
 var
-  i : integer;
+  I : integer;
 begin
-  for i := 0 to Self.ControlCount - 1 do
-    if Self.Controls[i] is TEdit then
-      TEdit(Self.Controls[i]).Clear;
+  for I := 0 to Self.ControlCount - 1 do
+    if Self.Controls[I] is TEdit then
+      TEdit(Self.Controls[I]).Clear;
 
-  memo_json.Text := '';
+  memo_json.Clear;
 
   dadosEnderecoCompleto.CEP := '';
   dadosEnderecoCompleto.logradouro := '';
   dadosEnderecoCompleto.complemento := '';
-  dadosEnderecoCompleto.bairro := '';
-  dadosEnderecoCompleto.localidade := '';
   dadosEnderecoCompleto.uf := '';
-  dadosEnderecoCompleto.unidade := '';
+  dadosEnderecoCompleto.bairro := '';
   dadosEnderecoCompleto.IBGE := '';
+  dadosEnderecoCompleto.unidade := '';
+  dadosEnderecoCompleto.localidade := '';
 
+  with cds_dados do
+  begin
+    DisableControls;
+    try
+      while not Eof do
+        Delete;
+    finally
+      EnableControls;
+    end;
+  end;
 end;
 
 procedure TForm1.mensagemAviso(mensagem: string);

@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   BorderStyle = bsSingle
-  ClientHeight = 353
+  ClientHeight = 489
   ClientWidth = 923
   Color = clBtnHighlight
   Font.Charset = DEFAULT_CHARSET
@@ -134,7 +134,7 @@ object Form1: TForm1
   end
   object Panel2: TPanel
     Left = 0
-    Top = 311
+    Top = 447
     Width = 923
     Height = 42
     Align = alBottom
@@ -184,7 +184,7 @@ object Form1: TForm1
     Top = 50
     Width = 649
     Height = 112
-    ActivePage = aba_consultaPorCEP
+    ActivePage = aba_consultaPorEndereco
     TabHeight = 30
     TabOrder = 0
     object aba_consultaPorCEP: TTabSheet
@@ -285,6 +285,7 @@ object Form1: TForm1
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        OnExit = ed_ufConsultaExit
       end
       object bt_consultarEndereco: TButton
         Left = 496
@@ -313,6 +314,7 @@ object Form1: TForm1
         Font.Style = []
         ParentFont = False
         TabOrder = 1
+        OnExit = ed_cidadeConsultaExit
       end
       object ed_logradouroConsulta: TEdit
         Left = 260
@@ -326,6 +328,7 @@ object Form1: TForm1
         Font.Style = []
         ParentFont = False
         TabOrder = 2
+        OnExit = ed_logradouroConsultaExit
       end
     end
   end
@@ -457,14 +460,79 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 4
   end
-  object memo_json: TMemo
+  object Memo_json: TMemo
     Left = 656
     Top = 71
     Width = 259
     Height = 234
     Lines.Strings = (
-      'memo_json')
+      'Memo_json')
     ScrollBars = ssVertical
     TabOrder = 11
+  end
+  object DBGrid1: TDBGrid
+    Left = 8
+    Top = 320
+    Width = 907
+    Height = 120
+    DataSource = ds_dados
+    TabOrder = 12
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object ds_dados: TDataSource
+    DataSet = cds_dados
+    Left = 728
+    Top = 184
+  end
+  object cds_dados: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 792
+    Top = 184
+    Data = {
+      F70000009619E0BD010000001800000008000000000003000000F70003434550
+      01004900000001000557494454480200020009000A4C6F677261646F75726F01
+      00490000000100055749445448020002003C000B436F6D706C656D656E746F01
+      00490000000100055749445448020002003C0002554601004900000001000557
+      494454480200020002000642616972726F010049000000010005574944544802
+      0002003C00044942474501004900000001000557494454480200020014000755
+      6E69646164650100490000000100055749445448020002003C000A4C6F63616C
+      69646164650100490000000100055749445448020002003C000000}
+    object cds_dadosCEP: TStringField
+      FieldName = 'CEP'
+      Size = 9
+    end
+    object cds_dadosLogradouro: TStringField
+      FieldName = 'Logradouro'
+      Size = 60
+    end
+    object cds_dadosComplemento: TStringField
+      FieldName = 'Complemento'
+      Size = 60
+    end
+    object cds_dadosUF: TStringField
+      FieldName = 'UF'
+      Size = 2
+    end
+    object cds_dadosBairro: TStringField
+      FieldName = 'Bairro'
+      Size = 60
+    end
+    object cds_dadosIBGE: TStringField
+      FieldName = 'IBGE'
+    end
+    object cds_dadosUnidade: TStringField
+      FieldName = 'Unidade'
+      Size = 60
+    end
+    object cds_dadosLocalidade: TStringField
+      FieldName = 'Localidade'
+      Size = 60
+    end
   end
 end
